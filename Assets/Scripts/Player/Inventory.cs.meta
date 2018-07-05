@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4aace3f52ccc171498f43e4c4262ef00
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - slotTexture: {fileID: 2800000, guid: d1c7ac34343e03f428282c7650e3b1f5, type: 3}
+  - slotSelectedTexture: {fileID: 2800000, guid: 76ce02ce4ce6fa24293c412eb063e2c6,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
