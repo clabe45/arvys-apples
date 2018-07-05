@@ -12,4 +12,4 @@ It's free! Try out the [latest release](https://github.com/clabe45/the-orchard/r
 
 ## Development
 This is my first game in Unity. :blush:
-Please feel free to report any bugs or suggest feature requests on the Issues page.
+Please feel free to report any bugs or suggest features on the Issues page.
