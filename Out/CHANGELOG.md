@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Random choice bug
 
 ## [0.1.0] - 2018-06-29
 ### Added
@@ -34,3 +36,19 @@
 ### Fixed
 - Win screen actually displays. :+1:
 - Sprinting uses more hunger and thirst.
+
+## [0.3.0] Plot Update - 2018-07-09
+### Added
+- Note telling backstory: The player is applying to an apple orchard without knowing that he/she will enter a Test that the owner created.
+- Pause menu.
+- Apple-eating ambient noises.
+
+### Changed
+- Goal of the game from lasting eight minutes to filling five crates with red apples.
+- Improved GUI.
+- Caterpillar sound effects.
+
+### Fixed
+- Constant tug left while running or jumping with an apple.
+- Dropping items throws them forward instead of to the side.
+- Caterpillar sounds are now spatial.

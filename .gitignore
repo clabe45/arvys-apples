@@ -34,3 +34,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# my own
+Assets
+!Assets/Scenes
+!Assets/Scripts

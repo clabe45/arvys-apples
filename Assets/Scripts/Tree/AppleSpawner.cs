@@ -46,7 +46,7 @@ public class AppleSpawner : MonoBehaviour {
 
     void SpawnApple(SpawnedApple apple) {
         // spawnPositions is relative to gameObject (tree), so add gameObject's position
-        Vector3 position = gameObject.transform.position + spawnPositions[RandomManager.random.Next(0, spawnPositions.Length - 1)];
+        Vector3 position = gameObject.transform.position + spawnPositions[RandomManager.random.Next(0, spawnPositions.Length)];
         Transform inst = Instantiate(apple.prefab, position, Quaternion.identity);
         inst.parent = GameObject.FindGameObjectWithTag("Dynamic").transform;  // spawn as child of _Dynamic
     }

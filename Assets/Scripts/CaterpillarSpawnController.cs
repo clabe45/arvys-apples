@@ -31,7 +31,7 @@ public class CaterpillarSpawnController : MonoBehaviour {
     /// Spawns a caterpillar at a random location
     /// </summary>
     private void SpawnCat() {
-        Spawn spawn = spawnLocations[RandomManager.random.Next(0, spawnLocations.Length - 1)];
+        Spawn spawn = spawnLocations[RandomManager.random.Next(0, spawnLocations.Length)];
         GameObject cat = Instantiate(caterpillar, GameObject.FindGameObjectWithTag("Dynamic").transform);   // make child of _Dynamic
         cat.transform.SetPositionAndRotation(spawn.position, Quaternion.Euler(spawn.eulerAngles));
     }

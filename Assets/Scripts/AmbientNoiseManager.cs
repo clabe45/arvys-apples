@@ -10,10 +10,10 @@ public class AmbientNoiseManager : AmbientAudio {
 
     // Update is called once per frame
     override public void Update () {
-        base.Update();
+        if (!player.GetComponent<AudioSource>().isPlaying) base.Update();
         if (Time.time < musicStartTime) return;
-
-        if (Time.time >= nextMusicPlay) {
+        
+        if (Time.time >= nextMusicPlay && /*whether base is playing*/!GetComponent<AudioSource>().isPlaying) {
             player.GetComponent<AudioSource>().PlayOneShot(musicClip);
             nextMusicPlay = Time.time + (float)RandomManager.random.NextDouble() * (musicMaxInterval - musicMaxInterval) + musicMinInterval;
         }

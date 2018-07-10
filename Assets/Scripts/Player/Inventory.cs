@@ -17,8 +17,12 @@ public class Inventory : MonoBehaviour {
 
     public void Update() {
         CheckChangeCurrentSlot();
-        CheckDropItem();
         CheckUseItem();
+    }
+    
+    // involves physics
+    public void FixedUpdate() {
+        CheckDropItem();
     }
 
     private void CheckChangeCurrentSlot() {
@@ -42,7 +46,7 @@ public class Inventory : MonoBehaviour {
 
     private void CheckDropItem() {
         if (Input.GetKeyDown(KeyCode.E) && inventory[inventory.currentSlot]) {
-            RemoveItem();
+            RemoveCurrentItem();
         }
     }
 
@@ -98,16 +102,23 @@ public class Inventory : MonoBehaviour {
         inventory[slot] = item;
     }
 
-    public void RemoveItem(int? providedSlot=null) {
-        int slot = providedSlot ?? inventory.currentSlot;   // runtime optional parameter
+    public void RemoveItem(int slot) {
         // restart die timer, if possible
         if (inventory[slot].GetComponent<Lifetime>())
             inventory[slot].GetComponent<Lifetime>().born = Time.time;
         inventory[slot] = null;
     }
 
-    public void ClearItem(int slot) {
-        inventory[slot] = null;
+    public void RemoveCurrentItem() {
+        RemoveItem(inventory.currentSlot);
+    }
+
+    public GameObject GetItem(int slot) {
+        return inventory[slot];
+    }
+
+    public GameObject GetCurrentItem() {
+        return GetItem(inventory.currentSlot);
     }
 
     public bool IsFull() {
@@ -173,7 +184,10 @@ public class InventoryData {
     /// <param name="item"></param>
     /// <param name="inCurrent"></param>
     private void AddItem(GameObject item, bool inCurrent) {
-        if (!inCurrent) item.SetActive(false);
+        if (item.GetComponent<Rigidbody>()) item.GetComponent<Rigidbody>().isKinematic = true; //assuming no items are by default kinematic
+        if (item.GetComponent<Collider>()) item.GetComponent<Collider>().isTrigger = true;
+
+        if (!inCurrent) UnholdItem(item);   // technically not _un_holding it, but you get the idea
         else HoldItem(item);
         item.GetComponent<Item>().inInventory = true;
     }
@@ -184,7 +198,6 @@ public class InventoryData {
     /// <param name="item"></param>
     private void HoldItem(GameObject item) {
         item.SetActive(true);
-        if (item.GetComponent<Rigidbody>()) item.GetComponent<Rigidbody>().isKinematic = true; //assuming no items are by default kinematic
     }
 
     // must be called every frame, but after HoldItem when item is switched, somehow
@@ -192,13 +205,9 @@ public class InventoryData {
         GameObject ci = items[currentSlot];
         if (!ci) return;
         Transform hand = parent.hand; // shorthand, no pun intended
-        Vector3 handEuler = hand.rotation.eulerAngles;
-        Quaternion handRotBlenderCorrected = Quaternion.Euler(handEuler.x - 90, handEuler.y, handEuler.z);//idk if this helps
-        Vector3 handBase = hand.position,
-            bone = handRotBlenderCorrected * hand.lossyScale,   // length (and direction) of bone
-            handEnd = handBase + bone;
         Vector3 offset = new Vector3(0, 0, 0.3f);    // from hand to item
-        ci.transform.position = hand.TransformPoint(Vector3.left + offset); // just happens to be left because of all the transformations
+        Vector3 handEnd = hand.TransformPoint(Vector3.left + offset);
+        ci.transform.position = handEnd; // just happens to be left because of all the transformations
         ci.transform.rotation = parent.rootPlayer.transform.rotation;   // only include rotation around y-axis
         // should be no scale settings
     }
@@ -209,12 +218,14 @@ public class InventoryData {
     /// <param name="item"></param>
     private void RemoveItem(GameObject item) {
         item.SetActive(true);
-        item.transform.parent = null;// works?
+        item.transform.parent = GameObject.FindGameObjectWithTag("Dynamic").transform;
         //effectively disable physics
         if (item.GetComponent<Rigidbody>()) {
-            item.GetComponent<Rigidbody>().isKinematic = false;
-            item.GetComponent<Rigidbody>().AddForce(parent.transform.forward * parent.dropItemForce, ForceMode.Impulse);
+            Rigidbody rigidbody = item.GetComponent<Rigidbody>();
+            rigidbody.isKinematic = false;
+            rigidbody.AddForce(parent.transform.forward * parent.dropItemForce, ForceMode.Impulse);
         }
+        // don't set isTrigger to false here, set it after it leaves the player's capsule (in Item#Update)
         item.GetComponent<Item>().inInventory = false;
     }
     

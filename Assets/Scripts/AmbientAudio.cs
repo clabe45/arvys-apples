@@ -6,7 +6,7 @@ public class AmbientAudio : MonoBehaviour {
 
     virtual public void Update() {
         if (!GetComponent<AudioSource>().isPlaying && RandomManager.random.Next(0, audioRarity) == 0) {
-            GetComponent<AudioSource>().PlayOneShot(audioData[RandomManager.random.Next(0, audioData.Length-1)]);
+            GetComponent<AudioSource>().PlayOneShot(audioData[RandomManager.random.Next(0, audioData.Length)]);
         }
     }
 }

@@ -9,7 +9,7 @@ public class CaterpillarAI : MonoBehaviour {
     /// </summary>
     public Vector3 gravity;
 
-    private GameObject player, river;   // can only be populated dynamically (because prefabs and dynamic generation)
+    private GameObject player/*, river*/;   // can only be populated dynamically (because prefabs and dynamic generation)
     private Quaternion idleRotation;
     private float sqrSearchRadius;
 
@@ -24,7 +24,7 @@ public class CaterpillarAI : MonoBehaviour {
         GetComponent<Rigidbody>().velocity = idleSpeed * transform.forward;
         // can only be populated dynamically (because prefabs and dynamic generation)
         player = GameObject.FindGameObjectWithTag("RootPlayer");
-        river = GameObject.FindGameObjectWithTag("River");
+        //river = GameObject.FindGameObjectWithTag("River");
         idleRotation = Quaternion.Euler(0, 0, idleZSpin);
     }
 

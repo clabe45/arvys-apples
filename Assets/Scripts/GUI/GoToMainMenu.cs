@@ -2,8 +2,15 @@
 using UnityEngine.SceneManagement;
 
 public class GoToMainMenu : MonoBehaviour {
-    void Update () {
-        // prevent immediate scene change, before user realizes that he/she won or lost
-        if (Time.timeSinceLevelLoad > 0.5 && Input.anyKeyDown) SceneManager.LoadScene("MainMenu");
+    bool startedPressingAnyKey;
+
+    void Start() {
+        startedPressingAnyKey = Input.anyKey;
+    }
+
+    void Update() {
+        // prevent immediate scene change, before user lets go of all keys
+        if (startedPressingAnyKey && Input.anyKey) return;
+        if (Input.anyKeyDown) SceneManager.LoadScene("MainMenu");
 	}
 }
