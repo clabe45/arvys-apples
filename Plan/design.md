@@ -1,4 +1,4 @@
-# Game Design Document : Incomplete
+# Game Design Document
 ## Game Analysis
 Arvy's Apples (I haven't really decided on a name yet) is a 3D survival game in which the player has to perform tasks in an apple orchard Test while staying alive.
 
@@ -26,9 +26,9 @@ You start out in an empty apple orchard with nothing but a note and five empty c
 
 ### Gameplay Guidelines
 Principles:
- - Make things weird.
- - Maintain a balance between chance and skill.
- - Force player to figure it out.
+- Make things weird. Make as much weird content as possible.
+- Maintain a balance between chance and skill.
+- Force player to figure it out.
 
 ### Game Objectives & Rewards
 As this is a fairly simple game (though it's detailed), there are no objectives or rewards other than beating the game.
