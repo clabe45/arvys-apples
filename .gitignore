@@ -36,6 +36,7 @@ sysinfo.txt
 *.unitypackage
 
 # my own
+Out
 Assets
 !Assets/Scenes
 !Assets/Scripts

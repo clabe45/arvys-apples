@@ -57,6 +57,7 @@ Core
 - ADD
   - Credits
   - Options, and customizable controls or just a control help page
+  - Make box completion icons progress bars
 - FIX
   - Throwing paper directly down causing it to glitch through the floor, and (rarely) apples fall through the floor
   - Pause menu cursor
