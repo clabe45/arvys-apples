@@ -2,6 +2,9 @@
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
+    [HideInInspector]
+    public bool inWater;
+
     public void Win() {
         SceneManager.LoadScene("Win");
     }

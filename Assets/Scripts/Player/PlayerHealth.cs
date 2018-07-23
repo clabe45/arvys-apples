@@ -2,7 +2,7 @@
 
 public class PlayerHealth : MonoBehaviour {
     public float hungerDecrementTime, thirstUpdateTime, poisonDuration, poisonDamageTime;
-    public float riverQuenchAmount;
+    public float runCost, walkCost, idleCost, riverQuenchAmount;
     public Texture healthColor, healthBorderColor, healthPoisonedColor,
         hungerColor, hungerBorderColor, thirstColor, thirstBorderColor;
     public int barWidth, barHeight, margin;
@@ -48,9 +48,6 @@ public class PlayerHealth : MonoBehaviour {
     public bool Poisoned { get; private set; }
     private float lastPoisoned, nextPoisonDamage;
 
-    [HideInInspector]
-    public bool inWater;
-
     float lastHungerDecrement, lastThirstUpdate;
 
     public void Start() {
@@ -68,7 +65,7 @@ public class PlayerHealth : MonoBehaviour {
         bool runKey = Input.GetKey(Settings.Mutable.RUN_KEY);
         bool moving = rootPlayer.GetComponent<Rigidbody>().velocity.sqrMagnitude > 0;
         if (Time.time >= lastHungerDecrement + hungerDecrementTime) {
-            float loss = (runKey && moving) ? 2 : moving ? 0.5f : 1;
+            float loss = (runKey && moving) ? runCost : moving ? walkCost : idleCost;
             Hunger -= loss;
             lastHungerDecrement = Time.time;
         }
@@ -80,8 +77,8 @@ public class PlayerHealth : MonoBehaviour {
         bool runKey = Input.GetKey(Settings.Mutable.RUN_KEY);
         bool moving = rootPlayer.GetComponent<Rigidbody>().velocity.sqrMagnitude > 0;
         if (Time.time >= lastThirstUpdate + thirstUpdateTime) {
-            float gain = inWater ? riverQuenchAmount : 0;
-            float loss = (runKey && moving) ? 2 : moving ? 0.5f : 1;
+            float gain = GetComponent<Player>().inWater ? riverQuenchAmount : 0;
+            float loss = (runKey && moving) ? runCost : moving ? walkCost : idleCost;
             float delta = gain - loss;
             Thirst += delta;
             lastThirstUpdate = Time.time;

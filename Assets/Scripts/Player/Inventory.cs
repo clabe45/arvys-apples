@@ -46,7 +46,7 @@ public class Inventory : MonoBehaviour {
 
     private void CheckDropItem() {
         if (Input.GetKeyDown(KeyCode.E) && inventory[inventory.currentSlot]) {
-            RemoveCurrentItem();
+            RemoveCurrentItem(true);
         }
     }
 
@@ -54,7 +54,7 @@ public class Inventory : MonoBehaviour {
         // RMB
         if (Input.GetMouseButtonDown(1) && inventory[inventory.currentSlot] 
             && inventory[inventory.currentSlot].GetComponent<Item>()) {
-            inventory[inventory.currentSlot].GetComponent<Item>().Use(gameObject);
+            inventory[inventory.currentSlot].GetComponent<Item>().Use();
         }
     }
 
@@ -102,15 +102,17 @@ public class Inventory : MonoBehaviour {
         inventory[slot] = item;
     }
 
-    public void RemoveItem(int slot) {
+    public void RemoveItem(int slot, bool dropping) {
         // restart die timer, if possible
         if (inventory[slot].GetComponent<Lifetime>())
             inventory[slot].GetComponent<Lifetime>().born = Time.time;
-        inventory[slot] = null;
+        if (dropping)
+            inventory.DropItem(slot);
+        else inventory[slot] = null;
     }
 
-    public void RemoveCurrentItem() {
-        RemoveItem(inventory.currentSlot);
+    public void RemoveCurrentItem(bool dropping) {
+        RemoveItem(inventory.currentSlot, dropping);
     }
 
     public GameObject GetItem(int slot) {
@@ -161,7 +163,7 @@ public class InventoryData {
             if (!value && i != currentSlot) throw new System.InvalidOperationException("Cannot drop item that's not in hand");
             GameObject itemBefore = items[i];
             items[i] = value;
-            if (itemBefore) UnholdItem(itemBefore);
+            if (itemBefore) RemoveItem(itemBefore);
             if (value) AddItem(value, i == currentSlot);  // still, value == items[i]
             // after to prevent clashes with setting transform and applying force, I think so
             bool dropping = itemBefore && !value;
@@ -187,9 +189,12 @@ public class InventoryData {
         if (item.GetComponent<Rigidbody>()) item.GetComponent<Rigidbody>().isKinematic = true; //assuming no items are by default kinematic
         if (item.GetComponent<Collider>()) item.GetComponent<Collider>().isTrigger = true;
 
-        if (!inCurrent) UnholdItem(item);   // technically not _un_holding it, but you get the idea
-        else HoldItem(item);
-        item.GetComponent<Item>().inInventory = true;
+        if (!inCurrent) item.SetActive(false);
+
+        item.GetComponent<Item>().user = parent.gameObject;
+        item.GetComponent<Item>().OnAdd();  // before because OnAdd should be called before OnHold in HoldItem
+
+        if (inCurrent) HoldItem(item);
     }
 
     /// <summary>
@@ -198,6 +203,7 @@ public class InventoryData {
     /// <param name="item"></param>
     private void HoldItem(GameObject item) {
         item.SetActive(true);
+        item.GetComponent<Item>().OnHold();
     }
 
     // must be called every frame, but after HoldItem when item is switched, somehow
@@ -213,10 +219,26 @@ public class InventoryData {
     }
 
     /// <summary>
-    /// Puts the item back into the "real world"
+    /// Unregisters the item from the inventory, whether it be dropping or entering a crate
     /// </summary>
     /// <param name="item"></param>
     private void RemoveItem(GameObject item) {
+        // don't set isTrigger to false here, set it after it leaves the player's capsule (in Item#OnTriggerExit)
+        item.GetComponent<Item>().user = null;
+        // has to be in currentSlot, because an error is thrown otherwise (see #this[int]); so call OnUnhold
+        item.GetComponent<Item>().OnUnhold();
+        item.GetComponent<Item>().OnRemove();
+    }
+
+    /// <summary>
+    /// Puts the item back into the "real world".
+    /// When the item is dropped (using 'E'), use this method.
+    /// When it is put in a crate, simply set the array item to null, using <code>this[i]</code> notation.
+    /// </summary>
+    /// <param name="item"></param>
+    public void DropItem(int slot) {
+        GameObject item = items[slot];
+
         item.SetActive(true);
         item.transform.parent = GameObject.FindGameObjectWithTag("Dynamic").transform;
         //effectively disable physics
@@ -225,8 +247,8 @@ public class InventoryData {
             rigidbody.isKinematic = false;
             rigidbody.AddForce(parent.transform.forward * parent.dropItemForce, ForceMode.Impulse);
         }
-        // don't set isTrigger to false here, set it after it leaves the player's capsule (in Item#Update)
-        item.GetComponent<Item>().inInventory = false;
+
+        this[slot] = null;      // Will trigger `RemoveItem`
     }
     
     /// <summary>
@@ -235,5 +257,6 @@ public class InventoryData {
     /// <param name="item"></param>
     private void UnholdItem(GameObject item) {
         item.SetActive(false);
+        item.GetComponent<Item>().OnUnhold();
     }
 }

@@ -59,12 +59,16 @@ Core
   - Options, and customizable controls or just a control help page
   - Make box completion icons progress bars
 - FIX
-  - Throwing paper directly down causing it to glitch through the floor, and (rarely) apples fall through the floor
+  - Rarely note falls through ground when dropped directly down
   - Pause menu cursor
   - "press any key" responding immediately and bypassing check (fixed?)
-  - Continuous jumping when falling on (edge of?) crate
+  - Continuous jumping when falling on (edge of?) crate (fixed?)
 - CHANGE
   - Internal: make Util, etc. classes with static methods rather than empties
+  - Organize directory structure to make it consistent
+  - Make spritemaps
+  - Rescale the world
+  - Change shader?
 Cosmetic / Extra
 - ADD
   - Re-update stems to apple models?

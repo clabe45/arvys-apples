@@ -22,11 +22,11 @@ TagManager:
   - 
   - PostProcessing
   - PlayerModel
-  - Raycast
-  - 
-  - 
-  - 
-  - 
+  - Items
+  - Terrain
+  - Scenery
+  - Trees
+  - Crates
   - 
   - 
   - 
