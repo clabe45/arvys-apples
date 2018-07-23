@@ -53,7 +53,8 @@
 ### Changed
 - Crates are now spawned randomly on the terrain, instead of being at constant locations.
 - Crate completion icons are now progress bars.
-- Decreased caterpillar follow range.
+- Increased caterpillar follow range.
+
 ### Fixed
 - Some bugs with the note.
 - Pause menu tints all GUI now. :expressionless:

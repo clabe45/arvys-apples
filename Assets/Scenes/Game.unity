@@ -5050,7 +5050,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   spawnHeightOffset: 0.05
-  minSpawnPadding: 50
+  minSpawnPadding: 60
   crateFull: {fileID: 2800000, guid: 921582219cfd3174a819f8a47014a01e, type: 3}
   crateFilling: {fileID: 2800000, guid: b461cd1badde639469f295103ae41f0c, type: 3}
   crateEmpty: {fileID: 2800000, guid: 81cbdacf88190c64493450da5620d505, type: 3}
