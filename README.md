@@ -1,4 +1,4 @@
-# The Orchard :deciduous_tree: :apple: :apple:
+# Arvy's Apples :deciduous_tree: :apple: :apple:
 ## Overview
 The Orchard is a small low-poly survival game built in Unity. The game starts in an empty apple orchard.
 You have to live off the land by eating apples and drinking from a river.
