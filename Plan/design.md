@@ -53,30 +53,4 @@ The player can move with WASD, look around with mouse movement, and sprint with 
 The game is low-poly, and the UI is standard.
 
 ## Schedule and Tasks
-Core
-- ADD
-  - Credits
-  - Options, and customizable controls or just a control help page
-  - Make box completion icons progress bars
-- FIX
-  - Rarely note falls through ground when dropped directly down
-  - Pause menu cursor
-  - "press any key" responding immediately and bypassing check (fixed?)
-  - Continuous jumping when falling on (edge of?) crate (fixed?)
-- CHANGE
-  - Internal: make Util, etc. classes with static methods rather than empties
-  - Organize directory structure to make it consistent
-  - Make spritemaps
-  - Rescale the world
-  - Change shader?
-Cosmetic / Extra
-- ADD
-  - Re-update stems to apple models?
-  - More with green apples
-    - Strange shaders
-    - Strange mobs
-  - Shaders (for weird FX)
-  - Music (horror soundtrack?)
-  - Extra mobs (butterflies?)
-  - Mushrooms & flowers
-  - Flash low health
+See [tasks](tasks.md).
