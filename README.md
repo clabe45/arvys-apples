@@ -5,10 +5,10 @@ You have to live off the land by eating apples and drinking from a river.
 The game grows more intense and weird as you get closer to escaping the orchard.
 
 ## Download
-It's free! Try out the [latest release](https://github.com/clabe45/the-orchard/releases/latest)!
+It's free (and open source)! Check out the [latest release](https://github.com/clabe45/the-orchard/releases/latest)!
 
 ## Screenshots
-![Game play](Screenshots/2018-07-05.png)
+![Game play](Screenshots/2018-12-09.png)
 
 ## Development
 This is my first game in Unity. :blush:
